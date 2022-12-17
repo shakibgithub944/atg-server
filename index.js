@@ -14,7 +14,9 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const UserCollection = client.db("atg-world").collection("users");
-
+        const PostCollection = client.db("atg-world").collection("posts");
+        const LikeCollection = client.db("atg-world").collection("likes");
+        const CommentsCollection = client.db("atg-world").collection("comments");
         app.get('/', (req, res) => {
             res.send('server running!')
         })
@@ -59,6 +61,20 @@ async function run() {
             const result = await UserCollection.updateOne(query, updatedDoc, options);
             res.send(result)
         })
+
+        app.post('/post', async (req, res) => {
+            const post = req.body;
+            const result = await PostCollection.insertOne(post);
+            res.send(result)
+        })
+        
+        
+        app.get('/posts', async (req, res) => {
+            const query = {}
+            const result = await PostCollection.find(query).toArray();
+            res.send(result)
+        })
+   
 
 
 
