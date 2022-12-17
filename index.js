@@ -18,6 +18,10 @@ async function run() {
         const LikeCollection = client.db("atg-world").collection("likes");
         const CommentsCollection = client.db("atg-world").collection("comments");
 
+        app.get('/', async (req, res) => {
+            res.send('server running.......')
+        })
+        
         app.post('/register', async (req, res) => {
             const user = req.body;
             const result = await UserCollection.insertOne(user);
